@@ -1,0 +1,6 @@
+@xpa_api_HostAddress = http://localhost:5262
+
+GET {{xpa_api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

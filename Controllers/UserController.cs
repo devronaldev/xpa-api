@@ -14,7 +14,7 @@ namespace xpa_api.Controllers
         public UserController(AppDbContext context) => _context = context;
 
         [HttpGet]
-        public async Task<ActionResult<dynamic>> GetUsers()
+        public async Task<ActionResult> GetUsers()
         {
             try
             {
@@ -30,7 +30,6 @@ namespace xpa_api.Controllers
                         method = "get"
                     });
                 }
-
                 return Ok(users);
             }
             catch (Exception ex)

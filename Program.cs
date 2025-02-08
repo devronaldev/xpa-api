@@ -1,6 +1,9 @@
+using System.Text;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using xpa_api.Contexts;
 using DotNetEnv;
+using Microsoft.IdentityModel.Tokens;
 
 Env.Load();
 var builder = WebApplication.CreateBuilder(args);
@@ -13,15 +16,35 @@ builder.Services.AddSwaggerGen(c =>
     {
         Title = "XPrize Academy API",
         Version = "alpha",
-        Description = "API desenvolvida para gest�o escolar e ambiente de aprendizado utilizando com .NET 9"
+        Description = "API desenvolvida para gest�o escolar e ambiente de aprendizado utilizando com .NET 9"
     });
 });
 builder.Services.AddOpenApi();
 
 string? connectionString = Environment.GetEnvironmentVariable("SQLSERVER");
-// Criar met�do para remover warning em nulidade.
+// Criar metódo para remover warning em nulidade.
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+
+byte[] key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("JWTKEY"));
+// Criar metódo para remover warning em nulidade.
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = false, // Alterar em futura implementação
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateAudience = false
+    };
+});
 
 var app = builder.Build();
 

@@ -1,28 +1,72 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using xpa_api.Contexts;
+using xpa_api.DTOs;
 using xpa_api.Models.Tables;
+using xpa_api.Services;
 
 namespace xpa_api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserController : ControllerBase
+    public class UserController(AppDbContext context) : ControllerBase
     {
-        private readonly AppDbContext _context;
+        [HttpPost("login")]
+        public async Task<ActionResult<string>> Login(DtoLogin model)
+        {
+            if (!ModelState.IsValid) return BadRequest(new
+            {
+                    message = "Erro ao enviar dados de login",
+                    error = "Modelo de dados inválido",
+                    endpoint = "api/user/login",
+                    method = "post"
+            });
 
-        public UserController(AppDbContext context) => _context = context;
+            if (string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Password))
+            {
+                return BadRequest(new
+                {
+                    message = "Senha e/ou e-mail estão vazios",
+                    error = "Os valores de senha ou email chegaram vazios ou nulos.",
+                    endpoint = "api/user/login",
+                    method = "post"
+                });
+            }
 
+            try
+            {
+                var user = await context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Email == model.Email);
+                // Implementar Hashing de senhas e verificador de igualdade com BCrypt
+                if (user == null || user.Password != model.Password)
+                {
+                    return Unauthorized(new
+                    {
+                        message = "Senha ou e-mail incorretos.",
+                        error = "A senha e/ou o e-mail estão incorretos",
+                        endpoint = "api/user/login",
+                        method = "post"
+                    });
+                }
+                
+                return TokenServices.GenerateJwtToken(user);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+        
         [HttpGet]
         public async Task<ActionResult> GetUsers()
         {
             try
             {
-                var users = await _context.Users.ToListAsync();
+                var users = await context.Users.ToListAsync();
 
-                if (users == null || users.Count == 0)
+                if (users.Count == 0)
                 {
-                    return NotFound(new
+                    return NotFound(new 
                     {
                         message = "Não foram encontrados usuários.",
                         error = "Pesquisa nula ou zerada",
@@ -45,9 +89,9 @@ namespace xpa_api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<dynamic>> CreateUser(User model)
+        public async Task<ActionResult> CreateUser(User model)
         {
-            if (model == null)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(new
                 {
@@ -60,8 +104,8 @@ namespace xpa_api.Controllers
 
             try
             {
-                _context.Add(model);
-                await _context.SaveChangesAsync();
+                context.Add(model);
+                await context.SaveChangesAsync();
                 return Ok();
             }
             catch (Exception ex)

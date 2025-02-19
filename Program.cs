@@ -22,13 +22,13 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddOpenApi();
 
 string? connectionString = Environment.GetEnvironmentVariable("SQLSERVER");
-// Criar metódo para remover warning em nulidade.
+//TODO: Criar metódo para remover warning em nulidade.
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 
 byte[] key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("JWTKEY"));
-// Criar metódo para remover warning em nulidade.
+//TODO: Criar metódo para remover warning em nulidade.
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -48,7 +48,6 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();

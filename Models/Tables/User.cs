@@ -6,6 +6,7 @@ namespace xpa_api.Models.Tables
     [Table("users")]
     public class User : IContacts
     {
+        [Key]
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime Birthday { get; set; }
@@ -16,8 +17,8 @@ namespace xpa_api.Models.Tables
 
         //IContact Implement
         public string Number1 { get; set; }
-        public string Number2 { get; set; }
-        public string Number3 { get; set; }
+        public string Number2 { get; set; } = string.Empty;
+        public string Number3 { get; set; } = string.Empty;
         public string Email { get; set; }
     }
     

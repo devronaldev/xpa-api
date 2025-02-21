@@ -8,11 +8,8 @@ namespace xpa_api.Models.Tables;
 public class EnrollmentInteraction
 {
     //SEARCH VALUES
-    [Key]
     public int Id { get; set; }
-    [ForeignKey("User")]
     public int UserId { get; set; }
-    [ForeignKey("Youth")]
     public int YouthId { get; set; }
     
     // OTHER DATA

@@ -8,6 +8,7 @@ public class AttendanceListConfiguration : IEntityTypeConfiguration<AttendanceLi
 {
     public void Configure(EntityTypeBuilder<AttendanceList> builder)
     {
+        builder.ToTable("AttendanceLists");
         builder.HasKey(x => x.AttendanceListId);
         builder.HasOne<ClassDay>(x => x.ClassDay)
             .WithMany()

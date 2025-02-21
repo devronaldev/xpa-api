@@ -6,17 +6,13 @@ namespace xpa_api.Models.Tables;
 public class Contract
 {
     //SEARCH VALUES
-    [Key]
     public int ContractId { get; set; }
-    [ForeignKey("YouthId")]
     public int YouthId { get; set; }
-    [ForeignKey("SchoolId")]
     public int SchoolId { get; set; }
-    [ForeignKey("ClassId")]
     public int ClassId { get; set; }
     //CPF or another document value
     public string IdentificationDocument { get; set; }
-    public int Index { get; set; }
+    public int? CTR { get; set; }
     // Change to Enum
     public int StatusValue {get; set; }
     

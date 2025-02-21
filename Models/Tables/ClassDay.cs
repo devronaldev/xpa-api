@@ -5,13 +5,9 @@ namespace xpa_api.Models.Tables;
 
 public class ClassDay
 {
-    [Key]
     public int ClassDayId { get; set; }
-    [ForeignKey("ClassId")]
     public int ClassId { get; set; }
-    [ForeignKey("CurriculumId")]
     public int CurriculumId { get; set; }
-    [ForeignKey("RoomId")]
     public int RoomId { get; set; }
     
     public virtual Class? Class { get; set; }
@@ -19,6 +15,8 @@ public class ClassDay
     public virtual Room? Room { get; set; }
     
     public int WeekDay { get; set; }
-    public int Hour { get; set; }
-    public int Minute { get; set; }
+    public int StartHour { get; set; }
+    public int StartMinute { get; set; }
+    public int EndHour { get; set; }
+    public int EndMinute { get; set; }
 }

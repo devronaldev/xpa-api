@@ -8,6 +8,7 @@ public class AttendanceConfiguration : IEntityTypeConfiguration<Attendance>
 {
     public void Configure(EntityTypeBuilder<Attendance> builder)
     {
+        builder.ToTable("Attendance");
         builder.HasOne(a => a.Contract)
             .WithMany()
             .HasForeignKey(a => a.ContractId)

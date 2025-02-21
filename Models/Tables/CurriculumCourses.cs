@@ -4,8 +4,8 @@ namespace xpa_api.Models.Tables;
 
 public class CurriculumCourses
 {
-    [ForeignKey("CurriculumId")]
     public int CurriculumId { get; set; }
-    [ForeignKey("CourseId")]
+    public Curriculum Curriculum { get; set; }
     public int CourseId { get; set; }
+    public Course Course { get; set; }
 }

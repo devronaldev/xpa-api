@@ -5,11 +5,9 @@ namespace xpa_api.Models.Tables;
 
 public class Payment
 {
-    [Key]
     public int PaymentId { get; set; }
-    [ForeignKey("InstallmentId")]
     public int InstallmentId { get; set; }
-    public virtual Installment Installment { get; set; }
+    public Installment Installment { get; set; }
     public decimal AmountPaid { get; set; }
     public DateTime PaymentDate { get; set; }
     public EPaymentType PaymentType { get; set; }

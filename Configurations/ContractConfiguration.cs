@@ -26,6 +26,18 @@ public class ContractConfiguration : IEntityTypeConfiguration<Contract>
             .HasForeignKey(x => x.ClassId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        builder.HasMany<Record>(x => x.Records)
+            .WithOne(x => x.Contract)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.HasMany<Installment>(x => x.Installments)
+            .WithOne(x => x.Contract)
+            .OnDelete(DeleteBehavior.Restrict);
+        
+        builder.HasMany<Attendance>(x => x.Attendances)
+            .WithOne(x => x.Contract)
+            .OnDelete(DeleteBehavior.Cascade);
+        
         builder.Property(x => x.CTR).ValueGeneratedNever();
     }
 }

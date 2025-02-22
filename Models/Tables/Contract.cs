@@ -16,10 +16,13 @@ public class Contract
     // Change to Enum
     public int StatusValue {get; set; }
     
-    //Virtual Values
-    public virtual Youth Youth { get; set; }
-    public virtual School School { get; set; }
-    public virtual Class Class { get; set; }
+    //Relation Values
+    public Youth Youth { get; set; }
+    public School School { get; set; }
+    public Class Class { get; set; }
+    public List<Record> Records { get; set; }
+    public List<Installment> Installments { get; set; }
+    public List<Attendance> Attendances { get; set; }
     
     //PERSONAL DATA
     public string Nacionality { get; set; }

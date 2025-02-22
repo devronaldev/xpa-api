@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using xpa_api.Configurations;
+using xpa_api.Models;
 using xpa_api.Models.Tables;
 
 namespace xpa_api.Contexts
@@ -33,8 +34,56 @@ namespace xpa_api.Contexts
         {
             modelBuilder.ApplyConfiguration(new AttendanceConfiguration());
             modelBuilder.ApplyConfiguration(new AttendanceListConfiguration());
+            modelBuilder.ApplyConfiguration(new ClassConfiguration());
+            modelBuilder.ApplyConfiguration(new ClassDayConfiguration());
+            modelBuilder.ApplyConfiguration(new ContractConfiguration());
+            modelBuilder.ApplyConfiguration(new CourseConfiguration());
+            modelBuilder.ApplyConfiguration(new CurriculumConfiguration());
+            modelBuilder.ApplyConfiguration(new CurriculumCourseConfiguration());
+            modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
+            modelBuilder.ApplyConfiguration(new EnrollmentInteractionConfiguration());
+            modelBuilder.ApplyConfiguration(new InstallmentConfiguration());
+            modelBuilder.ApplyConfiguration(new PaymentConfiguration());
+            modelBuilder.ApplyConfiguration(new RecordConfiguration());
+            modelBuilder.ApplyConfiguration(new RoomConfiguration());
+            modelBuilder.ApplyConfiguration(new SchoolConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new YouthConfiguration());
             
             base.OnModelCreating(modelBuilder);
+        }
+        
+        public async Task<int> SaveChangesAsync(User user)
+        {
+            var entities = ChangeTracker.Entries<ISoftAuditable>();
+            foreach (var entity in entities)
+            {
+                switch (entity.State)
+                {
+                    case EntityState.Added:
+                        entity.Entity.CreatedAt = DateTime.UtcNow;
+                        entity.Entity.UpdatedAt = DateTime.UtcNow;
+                        entity.Entity.CreatedBy = user.Name;
+                        break;
+                    case EntityState.Modified:
+                        entity.Entity.UpdatedAt = DateTime.UtcNow;
+                        entity.Entity.LastUpdatedBy = user.Name;
+                        break;
+                }
+            }
+
+            var softDeleteEntities = ChangeTracker.Entries<IAuditable>();
+            foreach (var entity in softDeleteEntities)
+            {
+                if (entity.State == EntityState.Deleted)
+                {
+                    entity.State = EntityState.Modified;
+                    entity.Entity.IsDeleted = true;
+                    entity.Entity.DeletedAt = DateTime.UtcNow;
+                    entity.Entity.LastUpdatedBy = user.Name;
+                }
+            }
+            return await base.SaveChangesAsync();
         }
     }
 }

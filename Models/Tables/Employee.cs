@@ -2,7 +2,7 @@
 
 namespace xpa_api.Models.Tables;
 
-public class Employee
+public class Employee : ISoftAuditable
 {
     //SEARCH VALUES
     public int UserId { get; set; }
@@ -14,6 +14,13 @@ public class Employee
     //VIRTUAL VALUES
     public User User { get; set; } 
     public School School { get; set; }
+    
+    //ISoftAuditable
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
+    public string CreatedBy { get; set; }
+    public string LastUpdatedBy { get; set; }
+    public bool IsActive { get; set; }
 }
 
 public enum EDepartment

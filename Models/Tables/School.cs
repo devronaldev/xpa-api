@@ -2,7 +2,7 @@
 
 namespace xpa_api.Models.Tables;
 
-public class School : IContacts
+public class School : IContacts, IAuditable
 {
     public int SchoolId { get; set; }
     public string Name { get; set; }
@@ -21,4 +21,14 @@ public class School : IContacts
     //Relations
     public List<Employee> Employees { get; set; }
     public List<Contract> Contracts { get; set; }
+    
+    //IAuditable
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
+    public string CreatedBy { get; set; }
+    public string LastUpdatedBy { get; set; }
+    public bool IsActive { get; set; }
+    public bool IsDeleted { get; set; }
+    public DateTime? DeletedAt { get; set; }
+    public DateTime? RestoredAt { get; set; }
 }

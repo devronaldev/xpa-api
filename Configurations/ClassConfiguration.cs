@@ -9,5 +9,9 @@ public class ClassConfiguration: IEntityTypeConfiguration<Class>
     public void Configure(EntityTypeBuilder<Class> builder)
     {
         builder.HasKey(x => x.ClassId);
+        builder.HasOne<School>(x => x.School)
+            .WithMany()
+            .HasForeignKey(x => x.SchoolId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

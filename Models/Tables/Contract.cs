@@ -2,8 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 namespace xpa_api.Models.Tables;
 
-[Table("Contract")]
-public class Contract
+public class Contract : IAuditable
 {
     //SEARCH VALUES
     public int ContractId { get; set; }
@@ -31,4 +30,14 @@ public class Contract
     public string Relationship { get; set; }
     public string FatherName { get; set; }
     public string MotherName { get; set; }
+    
+    //IAuditable
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
+    public string CreatedBy { get; set; }
+    public string LastUpdatedBy { get; set; }
+    public bool IsActive { get; set; }
+    public bool IsDeleted { get; set; }
+    public DateTime? DeletedAt { get; set; }
+    public DateTime? RestoredAt { get; set; }
 }

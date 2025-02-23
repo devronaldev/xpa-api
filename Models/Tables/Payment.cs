@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace xpa_api.Models.Tables;
 
-public class Payment
+public class Payment : IAuditable
 {
     public int PaymentId { get; set; }
     public int InstallmentId { get; set; }
@@ -11,6 +11,16 @@ public class Payment
     public decimal AmountPaid { get; set; }
     public DateTime PaymentDate { get; set; }
     public EPaymentType PaymentType { get; set; }
+    
+    //IAuditable
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
+    public string CreatedBy { get; set; }
+    public string LastUpdatedBy { get; set; }
+    public bool IsActive { get; set; }
+    public bool IsDeleted { get; set; }
+    public DateTime? DeletedAt { get; set; }
+    public DateTime? RestoredAt { get; set; }
 }
 
 public enum EPaymentType

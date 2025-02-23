@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace xpa_api.Models.Tables;
 
-public class ClassDay
+public class ClassDay : ISoftAuditable
 {
     public int ClassDayId { get; set; }
     public int ClassId { get; set; }
@@ -19,4 +19,11 @@ public class ClassDay
     public int StartMinute { get; set; }
     public int EndHour { get; set; }
     public int EndMinute { get; set; }
+    
+    //ISoftAuditable
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
+    public string CreatedBy { get; set; }
+    public string LastUpdatedBy { get; set; }
+    public bool IsActive { get; set; }
 }

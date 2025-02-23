@@ -4,12 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace xpa_api.Models.Tables
 {
     [Table("users")]
-    public class User : IContacts
+    public class User : IContacts, ISoftAuditable
     {
         public int UserId { get; set; }
         public string Name { get; set; }
         public string CPF { get; set; }
-        public bool IsActive { get; set; }
         public string Password { get; set; }
         public DateTime Birthday { get; set; }
         public ESeniority Seniority { get; set; }
@@ -24,6 +23,13 @@ namespace xpa_api.Models.Tables
         public string Neighborhood { get; set; }
         public string City { get; set; }
         public string ZipCode { get; set; }
+        
+        //ISoftAuditable
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+        public string CreatedBy { get; set; }
+        public string LastUpdatedBy { get; set; }
+        public bool IsActive { get; set; }
         
         //Relations
         public List<Employee> WorkPlaces { get; set; }

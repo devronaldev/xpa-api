@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 namespace xpa_api.Models.Tables;
 
 [Table("EnrollmentInteraction")]
-public class EnrollmentInteraction
+public class EnrollmentInteraction : ISoftAuditable
 {
     //SEARCH VALUES
     public int Id { get; set; }
@@ -17,8 +17,15 @@ public class EnrollmentInteraction
     public EInteractionType InteractionType { get; set; }
     
     // Virtual Values
-    public virtual User User { get; set; }
-    public virtual Youth Youth { get; set; }
+    public User User { get; set; }
+    public Youth Youth { get; set; }
+    
+    //ISoftAuditable
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
+    public string CreatedBy { get; set; }
+    public string LastUpdatedBy { get; set; }
+    public bool IsActive { get; set; }
 }
 
 public enum EInteractionType
